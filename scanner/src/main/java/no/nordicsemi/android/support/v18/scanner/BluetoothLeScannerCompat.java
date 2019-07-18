@@ -29,9 +29,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresPermission;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +38,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 
 /**
  * This class provides methods to perform scan related operations for Bluetooth LE devices. An
@@ -260,10 +261,11 @@ public abstract class BluetoothLeScannerCompat {
 	 * @param settings       Optional settings for the scan.
 	 * @param context        Context used to start {@link ScannerService}.
 	 * @param callbackIntent The PendingIntent to deliver the result to.
+     * @return Returns 0 if API < 26 or success, or an error code from ScanCallback if the scan request could not be sent.
 	 * @throws IllegalArgumentException If {@code settings} or {@code callback} is null.
 	 */
 	@RequiresPermission(allOf = {Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH})
-	public final void startScan(@Nullable final List<ScanFilter> filters,
+	public final int startScan(@Nullable final List<ScanFilter> filters,
 								@Nullable final ScanSettings settings,
 								@NonNull  final Context context,
 								@NonNull  final PendingIntent callbackIntent) {
@@ -275,7 +277,7 @@ public abstract class BluetoothLeScannerCompat {
 		if (context == null) {
 			throw new IllegalArgumentException("context is null");
 		}
-		startScanInternal(filters != null ? filters : Collections.<ScanFilter>emptyList(),
+		return startScanInternal(filters != null ? filters : Collections.<ScanFilter>emptyList(),
 				settings != null ? settings : new ScanSettings.Builder().build(),
 				context, callbackIntent);
 	}
@@ -310,12 +312,13 @@ public abstract class BluetoothLeScannerCompat {
 	 * @param settings       Settings for the scan.
 	 * @param context        Context used to start {@link ScannerService}.
 	 * @param callbackIntent The PendingIntent to deliver the result to.
+     * @return Returns 0 if API < 26 or success, or an error code from ScanCallback if the scan request could not be sent.
 	 */
 	@RequiresPermission(allOf = {Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH})
-	/* package */ abstract void startScanInternal(@NonNull List<ScanFilter> filters,
-												  @NonNull ScanSettings settings,
-												  @NonNull Context context,
-												  @NonNull PendingIntent callbackIntent);
+	/* package */ abstract int startScanInternal(@NonNull List<ScanFilter> filters,
+                                                 @NonNull ScanSettings settings,
+                                                 @NonNull Context context,
+                                                 @NonNull PendingIntent callbackIntent);
 
 	/**
 	 * Stops an ongoing Bluetooth LE scan.

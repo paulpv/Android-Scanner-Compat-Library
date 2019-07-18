@@ -31,14 +31,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresPermission;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresPermission;
 
 @TargetApi(Build.VERSION_CODES.O)
 /* package */ class BluetoothLeScannerImplOreo extends BluetoothLeScannerImplMarshmallow {
@@ -83,10 +84,10 @@ import java.util.List;
 
 	@Override
 	@RequiresPermission(allOf = {Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH})
-	/* package */ void startScanInternal(@Nullable final List<ScanFilter> filters,
-										 @Nullable final ScanSettings settings,
-										 @NonNull  final Context context,
-										 @NonNull  final PendingIntent callbackIntent) {
+	/* package */ int startScanInternal(@Nullable final List<ScanFilter> filters,
+                                        @Nullable final ScanSettings settings,
+                                        @NonNull  final Context context,
+                                        @NonNull  final PendingIntent callbackIntent) {
 		final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 		BluetoothLeUtils.checkAdapterStateOn(adapter);
 
@@ -110,7 +111,7 @@ import java.util.List;
 
 		final PendingIntent pendingIntent = createStartingPendingIntent(nonNullFilters,
 				nonNullSettings, context, callbackIntent);
-		scanner.startScan(nativeFilters, nativeSettings, pendingIntent);
+		return scanner.startScan(nativeFilters, nativeSettings, pendingIntent);
 	}
 
 	@RequiresPermission(Manifest.permission.BLUETOOTH_ADMIN)

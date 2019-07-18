@@ -32,13 +32,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 
 @SuppressWarnings({"deprecation", "WeakerAccess"})
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -107,10 +108,10 @@ import java.util.Map;
 
 	@Override
 	@RequiresPermission(allOf = {Manifest.permission.BLUETOOTH_ADMIN, Manifest.permission.BLUETOOTH})
-		/* package */ void startScanInternal(@NonNull final List<ScanFilter> filters,
-											 @NonNull final ScanSettings settings,
-											 @NonNull final Context context,
-											 @NonNull final PendingIntent callbackIntent) {
+		/* package */ int startScanInternal(@NonNull final List<ScanFilter> filters,
+                                            @NonNull final ScanSettings settings,
+                                            @NonNull final Context context,
+                                            @NonNull final PendingIntent callbackIntent) {
 		final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
 		BluetoothLeUtils.checkAdapterStateOn(adapter);
 
@@ -124,6 +125,7 @@ import java.util.Map;
 		service.putExtra(ScannerService.EXTRA_PENDING_INTENT, callbackIntent);
 		service.putExtra(ScannerService.EXTRA_START, true);
 		context.startService(service);
+		return 0;
 	}
 
 	@Override
