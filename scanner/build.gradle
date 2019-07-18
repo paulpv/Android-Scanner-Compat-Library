@@ -41,7 +41,7 @@ ext {
 
 group = 'com.github.paulpv'
 archivesBaseName = 'lib-android-scanner-compat'
-version = '1.4.1'
+version = '1.4.2'
 description = 'paulpv\'s Android Scanner Compat'
 
 android {
