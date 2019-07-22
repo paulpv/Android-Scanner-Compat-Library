@@ -193,7 +193,7 @@ import androidx.annotation.RequiresPermission;
 		final Intent intent = new Intent(context, PendingIntentReceiver.class);
 		intent.setAction(PendingIntentReceiver.ACTION);
 
-		return PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		return PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	@NonNull
